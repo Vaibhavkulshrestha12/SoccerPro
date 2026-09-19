@@ -1,0 +1,23 @@
+{
+  "name": "soccer-11v11-football",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test:render": "playwright test"
+  },
+  "dependencies": {
+    "peerjs": "^1.5.5",
+    "three": "0.160.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.3",
+    "@types/three": "0.160.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.4"
+  }
+}
