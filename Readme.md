@@ -4,6 +4,7 @@
 
 An arcade-style 3D football game built with Three.js, TypeScript, and Vite.
 
+- !!!! important : This is a work in progress, there is no mobile ui support as of now.
 - more to come !!! soon :)
 
 ![Soccer 11v11 Football](public/preview/main-menu.png)
@@ -24,9 +25,9 @@ The game opens with a stylized KICKOFF PRO menu and supports both local matches 
 - Host or join a match with a short room code
 - Passing, through balls, charged shots, sprinting, tackling, and player switching
 - Ball possession, goals, kickoff restarts, match clock, score display, and pause flow
-- Responsive HUD and menu layouts for desktop and mobile screens
+- Responsive HUD and menu layouts for desktop screens
 - Sakura brick-world environment surrounding the pitch
-- Playwright render checks for desktop and mobile canvas framing
+- Playwright render checks for desktop canvas framing
 
 ## Preview
 
