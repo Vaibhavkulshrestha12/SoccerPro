@@ -114,12 +114,11 @@ export class MainMenu {
                 <button class="aaa-btn aaa-btn-join" id="btnJoin">CONNECT</button>
               </div>
             </div>
-          </div>
-
-          <div class="aaa-status-box hidden" id="sessionIdDisplay">
-            <h4>YOUR ROOM CODE</h4>
-            <div class="aaa-code" id="sessionCode"></div>
-            <p>Waiting for opponent to connect...</p>
+            <div class="aaa-status-box hidden" id="sessionIdDisplay">
+              <h4>YOUR ROOM CODE</h4>
+              <div class="aaa-code" id="sessionCode"></div>
+              <p>Waiting for opponent to connect...</p>
+            </div>
           </div>
 
           <div class="aaa-status-message hidden" id="sessionStatus">
@@ -145,6 +144,18 @@ export class MainMenu {
             <div class="aaa-help-item"><kbd>I</kbd> TACKLE</div>
             <div class="aaa-help-item"><kbd>Q</kbd> SWITCH PLAYER</div>
             <div class="aaa-help-item"><kbd>ESC</kbd> PAUSE MENU</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aaa-info-modal" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+        <div class="aaa-info-content">
+          <div class="aaa-info-accent"></div>
+          <div class="aaa-info-copy">
+            <p class="aaa-info-kicker">SESSION UPDATE</p>
+            <h2 id="infoModalTitle">SESSION UNAVAILABLE</h2>
+            <p id="infoModalMessage"></p>
+            <button class="aaa-btn aaa-info-close" id="btnInfoClose">BACK TO SESSIONS</button>
           </div>
         </div>
       </div>
@@ -228,6 +239,15 @@ export class MainMenu {
     }
   }
 
+  showInfo(title: string, message: string): void {
+    const modal = this.root.querySelector("#infoModal") as HTMLElement;
+    const titleElement = this.root.querySelector("#infoModalTitle");
+    const messageElement = this.root.querySelector("#infoModalMessage");
+    if (titleElement) titleElement.textContent = title;
+    if (messageElement) messageElement.textContent = message;
+    modal.classList.add("visible");
+  }
+
   dispose(): void {
     this.root.remove();
   }
@@ -243,6 +263,8 @@ export class MainMenu {
     const helpModal = this.root.querySelector("#helpModal")!;
     const btnHelpClose = this.root.querySelector("#btnHelpClose")!;
     const helpTooltip = this.root.querySelector("#helpTooltip")!;
+    const infoModal = this.root.querySelector("#infoModal")!;
+    const btnInfoClose = this.root.querySelector("#btnInfoClose")!;
 
     btnAI.addEventListener("click", () => {
       this.callbacks?.onStartAI();
@@ -287,6 +309,9 @@ export class MainMenu {
 
     btnHelpClose.addEventListener("click", () => {
       helpModal.classList.remove("visible");
+    });
+    btnInfoClose.addEventListener("click", () => {
+      infoModal.classList.remove("visible");
     });
 
     helpModal.addEventListener("click", (e) => {

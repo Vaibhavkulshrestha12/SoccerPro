@@ -239,15 +239,20 @@ canvas {
 
 /* Big Interactive Tiles */
 .aaa-tiles {
+  --aaa-tile-gap: 24px;
+  --aaa-tile-height: clamp(280px, calc(100vh - 324px), 480px);
+  --aaa-tile-width: clamp(280px, calc(50vw - 92px), 360px);
+
   display: flex;
-  gap: 24px;
+  gap: var(--aaa-tile-gap);
   animation: slideInLeft 0.6s cubic-bezier(0.2, 1, 0.2, 1) 0.2s both;
 }
 
 .aaa-tile {
   position: relative;
-  width: 360px;
-  height: 480px;
+  flex: 0 0 var(--aaa-tile-width);
+  width: var(--aaa-tile-width);
+  height: var(--aaa-tile-height);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -280,7 +285,7 @@ canvas {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 40px;
+  padding: clamp(28px, 4.25vh, 40px);
   transform: skewX(5deg); /* Counter skew */
   z-index: 2;
 }
@@ -478,13 +483,85 @@ canvas {
 }
 
 .aaa-status-box {
-  margin-top: 40px;
+  flex: 0 0 250px;
   padding: 30px;
   background: rgba(234, 255, 0, 0.05);
   border: 1px solid rgba(234, 255, 0, 0.2);
   text-align: center;
   width: fit-content;
   animation: slideInLeft 0.6s cubic-bezier(0.2, 1, 0.2, 1) both;
+}
+
+.aaa-info-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.aaa-info-modal.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.aaa-info-content {
+  display: flex;
+  width: min(520px, 100%);
+  background: rgba(18, 22, 28, 0.96);
+  border: 1px solid rgba(234, 255, 0, 0.35);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.55);
+  transform: skewX(-3deg) translateY(18px);
+  transition: transform 0.3s ease;
+}
+
+.aaa-info-modal.visible .aaa-info-content {
+  transform: skewX(-3deg) translateY(0);
+}
+
+.aaa-info-accent {
+  flex: 0 0 8px;
+  background: var(--c-accent);
+  box-shadow: 0 0 22px rgba(234, 255, 0, 0.5);
+}
+
+.aaa-info-copy {
+  padding: 34px 38px 38px;
+  transform: skewX(3deg);
+}
+
+.aaa-info-kicker {
+  margin-bottom: 12px;
+  color: var(--c-accent);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+}
+
+.aaa-info-copy h2 {
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.aaa-info-copy > p:not(.aaa-info-kicker) {
+  margin-bottom: 28px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.aaa-info-close {
+  width: auto;
+  min-width: 210px;
 }
 
 .aaa-status-box h4 {
