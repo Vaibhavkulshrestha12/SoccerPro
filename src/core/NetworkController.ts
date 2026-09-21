@@ -60,6 +60,13 @@ export class NetworkController {
       });
 
       this.peer.on("connection", (conn) => {
+        if (this.connection || this._connected) {
+          conn.on("open", () => {
+            conn.send({ type: "session-full" });
+            conn.close();
+          });
+          return;
+        }
         this.connection = conn;
         this.setupConnection(conn);
       });
@@ -138,6 +145,13 @@ export class NetworkController {
     });
 
     conn.on("data", (data) => {
+      if (isSessionFullMessage(data)) {
+        this._connected = false;
+        this.connection = null;
+        this.onError?.("This session already has another player.");
+        conn.close();
+        return;
+      }
       const frame = data as NetInputFrame;
       this.remoteInput.move.set(frame.mx, frame.my);
       this.remoteInput.sprint = frame.sp;
@@ -161,6 +175,10 @@ export class NetworkController {
       this.onError?.("Connection lost");
     });
   }
+}
+
+function isSessionFullMessage(data: unknown): data is { type: "session-full" } {
+  return typeof data === "object" && data !== null && (data as { type?: unknown }).type === "session-full";
 }
 
 function generateSessionId(): string {

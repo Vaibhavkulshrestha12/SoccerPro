@@ -91,9 +91,13 @@ export class SoccerGame {
   private setupMenuCallbacks(): void {
     this.mainMenu.bind({
       onStartAI: () => {
+        this.network.onConnected = null;
+        this.network.onDisconnected = null;
+        this.network.onError = null;
+        this.network.dispose();
         this.matchMode = "ai";
         this.match.mode = "ai";
-        this.match.restartKickoff(true, true);
+        this.match.restartKickoff(true);
         this.mainMenu.hide();
         this.hud.show();
         this.state = "playing";
@@ -102,6 +106,11 @@ export class SoccerGame {
       onStart1v1: async (sessionId: string, isHost: boolean) => {
         this.matchMode = "1v1";
         this.match.mode = "1v1";
+        this.network.onError = (message) => {
+          this.quitToMenu();
+          this.mainMenu.showSessionStatus(`Error: ${message}`);
+          this.mainMenu.showInfo("SESSION UNAVAILABLE", message);
+        };
 
         try {
           if (isHost) {
@@ -134,7 +143,9 @@ export class SoccerGame {
           };
         } catch (err) {
           const message = err instanceof Error ? err.message : "Connection failed";
+          this.network.dispose();
           this.mainMenu.showSessionStatus(`Error: ${message}`);
+          this.mainMenu.showInfo("CONNECTION FAILED", message);
         }
       }
     });
